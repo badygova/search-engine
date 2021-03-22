@@ -23,7 +23,7 @@ def text_from_html(body):
 
 
 def get_data_from_urls():
-    with open("list.txt") as file:
+    with open("1/list.txt") as file:
         array = [row.strip() for row in file]
     return array
 
@@ -36,32 +36,32 @@ def lemming(token):
     return list(set(w_lemmas))
 
 
-ssl._create_default_https_context = ssl._create_unverified_context
-urls = get_data_from_urls()
-
-for idx, url in enumerate(urls):
-    response = requests.get('https://'+url, headers={'User-Agent': 'Mozilla/5.0'})
-    html = response.text
-    text = text_from_html(html)
-    list_of_words = re.findall(r'[a-zA-ZА-Яа-яё]+', text)
-
-    tokens_filename = 'tokens/' + str(idx) + '.txt'
-    lemmas_filename = 'lemmas/' + str(idx) + '.txt'
+if __name__ == '__main__':
+    # print(morph.parse("в")[0].tag.POS != ('CONJ' or 'PREP' or 'PRCL' or 'INTJ'))
+    ssl._create_default_https_context = ssl._create_unverified_context
+    urls = get_data_from_urls()
+    tokens_filename = '2/tokens.txt'
+    lemmas_filename = '2/lemmas.txt'
     tokens_file = open(tokens_filename, 'w')
     lemmas_file = open(lemmas_filename, 'w')
-
     tokens = set()
     result = []
-    for word in list_of_words:
-        word = word.lower()
-        if word not in tokens:
-            tokens.add(word)
-            tokens_file.write(word + '\n')
 
-            lemmas = lemming(word)
-            for lem in lemmas:
-                lemmas_file.write('<' + lem + '>')
-            lemmas_file.write('\n')
+    for idx, url in enumerate(urls):
+        response = requests.get('https://' + url, headers={'User-Agent': 'Mozilla/5.0'})
+        html = response.text
+        text = text_from_html(html)
+        list_of_words = re.findall(r'[a-zA-ZА-Яа-яё]{3,}', text)
+
+        for word in list_of_words:
+            word = word.lower()
+            if (word not in tokens) and (morph.parse(word)[0].tag.POS != ('CONJ' or 'PREP' or 'PRCL' or 'INTJ' or 'ADVB' or 'ADVB' or 'PRED')) and (word != ('еще' or 'ещё')):
+                tokens.add(word)
+                tokens_file.write(word + '\n')
+                lemmas = lemming(word)
+                for lem in lemmas:
+                    lemmas_file.write('<' + lem + '>')
+                lemmas_file.write('\n')
 
     tokens_file.close()
     lemmas_file.close()
