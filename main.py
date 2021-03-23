@@ -19,7 +19,7 @@ def text_from_html(body):
     soup = BeautifulSoup(body, 'html.parser')
     texts = soup.findAll(text=True)
     visible_texts = filter(tag_visible, texts)
-    return u" ".join(t.strip() for t in visible_texts)
+    return " ".join(t.strip() for t in visible_texts)
 
 
 def get_data_from_urls():
@@ -37,7 +37,6 @@ def lemming(token):
 
 
 if __name__ == '__main__':
-    # print(morph.parse("в")[0].tag.POS != ('CONJ' or 'PREP' or 'PRCL' or 'INTJ'))
     ssl._create_default_https_context = ssl._create_unverified_context
     urls = get_data_from_urls()
     tokens_filename = '2/tokens.txt'
@@ -49,6 +48,7 @@ if __name__ == '__main__':
 
     for idx, url in enumerate(urls):
         response = requests.get('https://' + url, headers={'User-Agent': 'Mozilla/5.0'})
+
         html = response.text
         text = text_from_html(html)
         list_of_words = re.findall(r'[a-zA-ZА-Яа-яё]{3,}', text)
@@ -60,7 +60,7 @@ if __name__ == '__main__':
                 tokens_file.write(word + '\n')
                 lemmas = lemming(word)
                 for lem in lemmas:
-                    lemmas_file.write('<' + lem + '>')
+                    lemmas_file.write(lem + ' ')
                 lemmas_file.write('\n')
 
     tokens_file.close()
