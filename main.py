@@ -39,8 +39,8 @@ def lemming(token):
 if __name__ == '__main__':
     ssl._create_default_https_context = ssl._create_unverified_context
     urls = get_data_from_urls()
-    tokens_filename = '2/tokens.txt'
-    lemmas_filename = '2/lemmas.txt'
+    tokens_filename = 'task2/tokens.txt'
+    lemmas_filename = 'task2/lemmas.txt'
     tokens_file = open(tokens_filename, 'w')
     lemmas_file = open(lemmas_filename, 'w')
     tokens = set()
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
         html = response.text
         text = text_from_html(html)
-        list_of_words = re.findall(r'[a-zA-ZА-Яа-яё]{3,}', text)
+        list_of_words = re.findall(r'[А-Яа-яё]{3,}', text)
 
         for word in list_of_words:
             word = word.lower()
