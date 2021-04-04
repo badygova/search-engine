@@ -7,7 +7,7 @@ morph = pymorphy2.MorphAnalyzer()
 
 
 def read_lemmatization():
-    f = open("../2/lemmas.txt", "r")
+    f = open("../task2/lemmas.txt", "r")
     lines = f.readlines()
     map = dict()
     for line in lines:
@@ -47,11 +47,11 @@ def find_words_in_html_files(map):
     urls_list = []
     for line in lines:
         urls_list.append(line.rstrip())
-    for file in archive.filelist:
+    for idx, file in enumerate(archive.filelist):
         html = archive.open(file.filename)
         text = text_from_html(html)
-        html_word_list = re.findall(r'[a-zA-ZА-Яа-яё]{3,}', text)
-
+        html_word_list = re.findall(r'[А-Яа-яё]{3,}', text)
+        print(idx)
         tokens = set()
         for word in html_word_list:
             if (morph.parse(word)[0].tag.POS != ('CONJ' or 'PREP' or 'PRCL' or 'INTJ' or 'ADVB' or 'ADVB' or 'PRED')) and (word != ('еще' or 'ещё')):
@@ -66,7 +66,7 @@ def find_words_in_html_files(map):
                     if lemma not in index.keys():
                         index[lemma] = WordWithDocInfo()
                     numbers = re.findall(r'\d+', file.filename)
-                    index[lemma].append_document_info(urls_list[int(numbers[0])-1], count)
+                    index[lemma].append_document_info(int(numbers[0])-1, count)
         print(file.filename + " проанализирован")
     return dict(sorted(index.items()))
 
@@ -122,5 +122,5 @@ class WordWithDocInfo:
         self.general_count += document_word_count
 
 if __name__ == '__main__':
-    # create_index()
-    boolean_search("чашка", read_index())
+    create_index()
+    # boolean_search("чашка", read_index())
