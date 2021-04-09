@@ -23,7 +23,7 @@ def text_from_html(body):
 
 
 def get_data_from_urls():
-    with open("1/list.txt") as file:
+    with open("task1/list.txt") as file:
         array = [row.strip() for row in file]
     return array
 
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
         html = response.text
         text = text_from_html(html)
-        list_of_words = re.findall(r'[А-Яа-яё]{3,}', text)
+        list_of_words = re.findall(r'[А-Яа-яё]{task3,}', text)
 
         for word in list_of_words:
             word = word.lower()

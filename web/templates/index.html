@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='style.css') }}">
+<!--    <link rel="stylesheet" type="text/css" href='../static/style.css'>-->
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div class="search">
+        <input id="query" name="query" type="text" class="searchTerm" placeholder="Пиши сюда..."/>
+        <button type="submit" id="searchButton" class="searchButton">
+            <i>Найти</i>
+        </button>
+    </div>
+
+    <div id="place_for_suggestions"></div>
+
+</div>
+</body>
+
+<script>
+
+    $(document).ready(function () {
+        $("#searchButton").click(function () {
+            console.log("action")
+
+            var text = $(this).val();
+
+            $.ajax({
+                url: "/search",
+                type: "get",
+                data: $("#query").serialize(),
+                success: function (response) {
+                    console.log('success')
+                    // var links = response['result']
+                    // for (var key in response) {
+                    //     console.log(key)
+                    // }
+                    // console.log(response['result'])
+                    // console.log(response['values'])
+
+                    $.each(response, function (index, value) {
+                        console.log(value['link'])
+                        console.log(value['title'])
+                        var $newdiv = $("<div class='resultTerm'></div>")
+                        var $a = $('<a></a>').attr("href", value['link']).text(value['title'])
+                        $newdiv.append($a)
+                        $("#place_for_suggestions").append($newdiv)
+                    })
+                },
+                error: function (xhr) {
+                    //Do Something to handle error
+                }
+            });
+        });
+    });
+</script>
+</html>
