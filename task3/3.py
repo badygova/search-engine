@@ -39,10 +39,10 @@ def get_lemma(word):
 
 
 def find_words_in_html_files(map):
-    archive = zipfile.ZipFile('../1/files.zip', 'r')
+    archive = zipfile.ZipFile('../task1/files.zip', 'r')
     index = dict()
 
-    urls_list_file = open("../1/list.txt", "r")
+    urls_list_file = open("../task1/list.txt", "r")
     lines = urls_list_file.readlines()
     urls_list = []
     for line in lines:
@@ -50,7 +50,7 @@ def find_words_in_html_files(map):
     for idx, file in enumerate(archive.filelist):
         html = archive.open(file.filename)
         text = text_from_html(html)
-        html_word_list = re.findall(r'[А-Яа-яё]{3,}', text)
+        html_word_list = re.findall(r'[А-Яа-яё]{task3,}', text)
         print(idx)
         tokens = set()
         for word in html_word_list:

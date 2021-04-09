@@ -81,7 +81,7 @@ def read_tokens():
 
 
 def read_index():
-    f = open("../3/index.txt", "r")
+    f = open("../task3/index.txt", "r")
     lines = f.readlines()
     index = dict()
     for line in lines:
@@ -150,7 +150,7 @@ def write_tf_idf(tf_idf_map):
 
 
 def tf_calculate():
-    archive = zipfile.ZipFile('../1/files.zip', 'r')
+    archive = zipfile.ZipFile('../task1/files.zip', 'r')
     tf_map = dict()
     for file in archive.filelist:
         numbers = re.findall(r'\d+', file.filename)
@@ -176,7 +176,7 @@ def tf_calculate():
 
 
 def idf_calculate():
-    archive = zipfile.ZipFile('../1/files.zip', 'r')
+    archive = zipfile.ZipFile('../task1/files.zip', 'r')
     documents_number = len(archive.filelist)
     token_document_map = dict()
     index = read_index()
@@ -187,7 +187,7 @@ import ntpath
 from pathlib import Path
 
 def tf_idf_calculate():
-    archive = zipfile.ZipFile('../1/files.zip', 'r')
+    archive = zipfile.ZipFile('../task1/files.zip', 'r')
     html_files = archive.namelist()
     tf_data = dict(sorted(read_tf().items()))
     idf_data = dict(sorted(read_idf("idf.txt").items()))

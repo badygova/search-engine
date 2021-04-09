@@ -47,7 +47,7 @@ def sort_index(index):
 
 
 def find_words_in_html_files(map):
-    archive = zipfile.ZipFile('../1/files.zip', 'r')
+    archive = zipfile.ZipFile('../task1/files.zip', 'r')
     index = dict()
     i = 0
     for file in archive.filelist:
